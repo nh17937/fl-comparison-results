@@ -3,3 +3,55 @@
 \section{Results}
 \label{sec:results}
 %This section presents the results of the empirical study and answers each research question.
+\subsection{Results}
+\subsubsection{RQ1 (Effectiveness)}
+
+
+Tables~\ref{tab:main_results_fl_1_4_1}, \ref{tab:main_results_fl_1_4_2}, \ref{tab:main_results_fl_1_4_3}, and \ref{tab:main_results_fl_1_4_4} present the output of the application of fault localisation tools to our benchmark. The column \textit{'GT'} stands for \textit{'Ground Truth'} and provides the list of fault types affecting the model. For artificial faulty models that were obtained by applying \DC to subject models, we denote their fault types by the corresponding mutation operators (see Table~\ref{tab:AFmodels}). Columns named \textit{'tool\_name-output'} show the fault list produced by each FL tool. As the fault types that affect real faulty models from our benchmark are also covered by \DC, their ground truth is also presented as the corresponding mutation operators.
+
+Please note that to simplify, we name 'ARM' faults as 'ACH' as both operators change the activation function of a layer. In addition to the mutation operators mentioned in Table~\ref{tab:AFmodels}, 'HBS' is an operator that changes batch size to produce faulty models with wrong batch size, 'LRM' and 'LAD' simulate cases where there is a negative effect on the performance when a model is missing a layer or has a redundant one, respectively. Another operator, 'LCN', changes the number of neurons in a layer to an improper one, while 'LCF' corrupts the filter size of a convolutional layer. 'BCI' and 'CPP', however, are not part of \DC's operators; they stand for 'Change bias initialisation' and 'Change Training Data Preprocessing', respectively. For some faults that affect not the whole model but only selected layers, in round brackets we specify the indexes of the faulty layers, for ground truth and for fault localisation results if this information is provided. Moreover, '-' means that an FL tool was not able to either find any fault in a program or to associate a detected symptom with a fault. 'N/A' means that the tool was not applicable to the fault type in question or crashed on it. For example, \NL only accepts optimisers that are defined as strings (e.g. 'sgd'), which in turn implies that the default learning rate as defined by the framework is used. This makes it not possible to provide an optimiser with modified learning rate. Symbol '|' separates distinct faults, while separation by '/' means that the faults are alternative to each other. 
+
+For each fault from the ground truth list, column \textit{'tool\_name-match-GT'} specifies whether or not it was detected by the corresponding tool (0 if not detected and 1 otherwise). For each row (issue) we underline the best result.
+
+Interestingly, in the majority of cases \UM (20 out of 22) and \DD (15 out of 22) suggest changing the activation function of the last layer to 'softmax' even if in 73 \% of these cases for \UM and 67\% for \DD, the activation function already equals to 'softmax'. This also happens once to \NL. We exclude such misleading suggestions from the tools' output. Moreover, sometimes \UM mentions that overfitting is possible. Since it is just a possibility and such a message does not point to a specific fault, we also exclude it from the analysis. Full output messages provided by the tools are available in our replication package~\cite{fl_comparison_replication}.
+
+Table~\ref{tab:main_results_fl_2} reflects the overall evaluation of the effectiveness of the FL tools. Column "GT \# faults" shows the number of fault types in the ground truth, while columns 'tool\_name \# matches' show the number of faults from the ground truth a tool was able to detect. Columns 'tool\_name AJ' show the values of the Asymmetric Jaccard metric calculated for each pair of an issue and a tool. We treated the cases when a tool is not applicable to an issue as if the tool has failed to locate any faults affecting the issue. Also, we provide mean values for each tool across artificial and real faults (rows 'Avg.') and across all issues in the benchmark (row 'T.A'), to ease the comparison between the tools. According to these numbers, \dfd, on average, exhibits the best performance and significantly outperforms other tools on real faults. For artificial faults, however, \dfd, \NL, and \UM achieve similar performance. Overall, based on all measured metrics, \dfd has the highest values, while all \DD's measurements are noticeably lower than for other tools. \NL and \UM show similar performance according to AJ metric, but \NL has a higher mean number of matches with ground truth. 
+
+%For artificial faults, however, the highest AJ values are obtained by \UM. Overall, based on all measured metrics, \NL and \UM show similar performance, while all \DD's measurements are quite lower.
+
+It is worth mentioning that, unlike other tools, \dfd does not provide layer index suggestions. Thus, it is not possible to understand whether a successfully detected fault of 'ACH' type actually points to the correct layer. This is the case for 2 issues out of 22 and if we exclude these issues from the calculation of mean AJ, the result for \dfd drops from 0.305 to 0.214, which makes it comparable with \NL and \UM. If we assume that \dfd correctly locates this fault with the probability of 50\% (the suggested layer is either correct or not), the mean AJ value will be equal to 0.260. Also, for some of the fault types, other tools but \dfd provide specific suggestions on which activation function (DD, UM) or weights initialisation (NL) to adopt or whether to increase or decrease the learning rate (UM).
+
+
+
+\begin{tcolorbox}[colback = box-white]
+  \textbf{RQ1}: Our evaluation shows that all FL tools show relatively low AJ results as, for many issues, the tools are not able to successfully identify faults affecting the model. On average, \dfd shows the best results and \DD the lowest. At the same time, \NL and \UM perform quite similarly. Our findings show that this area of testing can benefit from future contributions aimed at improving the accuracy of the identified faults.
+\end{tcolorbox}
+
+\subsubsection{RQ2 (Stability)}
+% \label{sec:RQ2}
+
+As mentioned before (see Section~\ref{sec:exp_fl}), the authors of \dfd account for the instability of the training process and perform 20 retrainings when collecting input features both during the classifier training stage and during fault identification. This way, the output of the tool is calculated from 20 feature sets for each model under test.
+
+\NL does not require any training to be done and is based on static rules that are stable by design. We preformed 20 runs of all other tools to investigate their stability. We found out that outputs are stable across the experiment repetitions for all considered tools.
+
+
+\begin{tcolorbox}[colback = box-white]
+  \textbf{RQ2}: Existing fault localisation tools provide stable results that do not change from execution to execution.
+\end{tcolorbox}
+
+\subsubsection{RQ3 (Efficiency)}
+% \label{sec:RQ3}
+
+In this RQ, we investigated how demanding the evaluated approaches are in terms of execution time. Here we measure only the time required to run an FL tool on a subject without taking into account the time and effort needed to prepare the subject for the tool application. All of the tools require some manual work to be done: for \dfd, a user has to create serialised versions of the training dataset and model configuration according to a specific format; for \DD and \UM, a user has to insert and a tool-specific callback to the code and provide it with a list of arguments; for \NL, there is a number of manual changes to the source code to make the tool runnable.
+
+Table~\ref{tab:main_results_fl_3} shows execution time measured in seconds on 1 run of \dfd and \NL, and an average of 20 runs for the remaining tools. Row 'T.A.' shows the average time spent by each tool on fault localisation over the whole benchmark. To allow fair comparison, row 'Avg.' shows the average execution time over the faults where all tools are applicable. Not surprisingly, \dfd takes considerably longer to run than the other tools since it trains 20 instances for each issue, while the other tools perform 1 (\DD, \UM) or no retraining (\NL). In addition, \DD often terminates the training when a faulty behaviour is observed, which makes its average execution time the shortest on the issues we used. As \NL does not require to train a model to perform fault localisation, its average execution time is also quite low. It can be noted that for some faults that are very fast to train (e.g. C2, D1, D3, 6), a full training performed by \UM takes less time than the static checks of \NL. On average, \DD is the fastest to run, followed by \NL and \UM, and finally, \dfd. Despite the differences, the execution time of all the tools considered is compatible with real-world use.
+
+%\gunel{you could maybe perform statistical test to see if the difference in effectiveness and efficiency of the tools is statistically significant. not sure we have enough datapoints though.}
+\begin{tcolorbox}[colback = box-white]
+  \textbf{RQ3}: The tools considered in our empirical study operate on the basis of different strategies and require different numbers of retrainings of the same model to attempt fault localisation. Consequently, \DD, which often interrupts the execution when it detects a fault symptom, is the fastest, while \dfd is the slowest as it is designed to take into account the stochasticity in the training process by generating 20 instances of the model under test. \NL 
+ performs fault localisation without training a model, making it sometimes faster than \UM. Neither tool requires resources that are prohibitively expensive for practical use.
+\end{tcolorbox}
+
+\include{Tab/tab_fl_11}
+\include{Tab/tab_fl_12}
+\include{Tab/tab_fl_3}

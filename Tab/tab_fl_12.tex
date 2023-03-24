@@ -1,0 +1,45 @@
+%!TEX ROOT=./fl_main.tex
+
+\begin{table}[ht]
+  \centering
+  \caption{Number (\#) of Ground Truth (GT) faults, number (\#) of FL matches with GT, and AJ values for each FL tool. Avg. shows the average within artifical or real faults. T.A. shows the total average across faults.} 
+  \label{tab:main_results_fl_2}
+   \scalebox{0.8}{
+  \begin{tabular}{l|c|cc|cc|cc|cc}
+    \toprule
+   ID & GT & \multicolumn{2}{c|}{DFD} & \multicolumn{2}{c|}{DD} & \multicolumn{2}{c|}{NL} & \multicolumn{2}{c}{UM}  \\
+     & \# faults & \# matches & AJ & \# matches & AJ &  \# matches & AJ &  \# matches & AJ \\
+    \midrule    
+M1 & 1 & 0 & 0 & 0 & 0 & \textbf{1} & 1 & 0 & 0  \\
+M2 & 1 & 0 & 0 & \underline{1} & 1 & 0 & 0 & \underline{1} & 1  \\
+M3 & 1 & \underline{1} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+C1 & 1 & \underline{1} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+C2 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+C3 & 1 & 0 & 0 & 0 & 0 & \underline{1} & 1 & 0 & 0  \\
+R1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+R2 & 1 & 0 & 0 & \underline{1} & 1 & 0 & 0 & \underline{1} & 1  \\
+R3 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & \underline{1} & 1  \\
+R4 & 1 & \underline{1} & 1 & 0 & 0 & \underline{1} & 1 & 0 & 0  \\
+R5 & 1 & \underline{1} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+R6 & 1 & 0 & 0 & 0 & 0 & \underline{1} & 1 & 0 & 0  \\
+R7 & 1 & 0 & 0 & \underline{1} & 1 & 0 & 0 & \underline{1} & 1  \\
+    \midrule
+\textbf{Avg.} & \textbf{1} & \textbf{0.308} & \textbf{0.308} & \textbf{0.231} & \textbf{0.231} & \textbf{0.308} & \textbf{0.308} & \textbf{0.308} & \textbf{0.308} \\
+    \midrule
+D1 & 1 & \underline{1} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D2 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D3 & 5 & 1 & 0.2 & 0 & 0 & \underline{2} & 0.4 & 0 & 0  \\
+D4 & 3 & 0 & 0 & 1 & 0.33 & 1 & 0.33 & \underline{2} & 0.67  \\
+D5 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D6 & 4 & \underline{2} & 0.5 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D7 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D8 & 2 & \underline{2} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D9 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+    \midrule
+\textbf{Avg.} & \textbf{2.667} & \textbf{0.667} & \textbf{0.300} & \textbf{0.111} & \textbf{0.037} & \textbf{0.333} & \textbf{0.081} & \textbf{0.222} & \textbf{0.074} \\ 			
+    \midrule
+\textbf{T.A.} & \textbf{1.681} & \textbf{0.455} & \textbf{0.305} & \textbf{0.182} & \textbf{0.152} & \textbf{0.318} & \textbf{0.215} & \textbf{0.273} & \textbf{0.212} \\
+    \bottomrule
+  \end{tabular}
+  }
+\end{table}

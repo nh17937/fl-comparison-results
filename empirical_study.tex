@@ -1,4 +1,29 @@
 %!TEX ROOT=./fl_main.tex
 
-\section{Empirical study}
-\label{sec:empirical_study}
+\section{Empirical study} \label{sec:empirical_study_fl}
+
+\subsection{Research Questions}
+
+The \textit{aim} of this empirical study is to compare existing DL fault localisation approaches and to explore their generalisability to different subjects represented by our benchmark of artificial and real faults. To cover these objectives, we define the following research questions:
+
+\begin{itemize}
+    \item \textbf{RQ1. Effectiveness}: \textit{Can existing FL approaches identify and locate defects in faulty DL models? Which FL tool produces the most accurate and actionable result?}
+    \item \textbf{RQ2. Stability}: \textit{Is the outcome of fault identification analysis stable across several runs?}
+    \item \textbf{RQ3. Efficiency}: \textit{How costly are FL tools when compared to each other?}
+\end{itemize}
+
+
+\subsection{Benchmark}
+
+\nargiz{describe, cite repair paper}
+
+\subsection{Experimental Settings \& Evaluation Metrics} \label{sec:exp_fl}
+For the comparison we use publicly available versions of all considered tools~\cite{deepfd_replication, umlaut_replication, neuralint_replication, deepdiagnosis_replication}. However, we had to limit the artificial faults to those obtained using CIFAR10, MNIST, and Reuters as \DD is not applicable to other subjects.
+
+The authors of \dfd adopted the notion of statistical mutation killing~\cite{JahangirovaICST20} in their tool. They run each of the models used to train the classifier as well as the model under test 20 times to collect the run-time features. For the fault localisation using \dfd, we adopt an ensemble of already trained classifiers provided in the tool's replication package. Similar to the authors, for each faulty model in our benchmark, we collect the run-time behavioural features from 20 retrainings of the model. \NL is based on static checks that do not require any training and thus, are not prone to randomness. We run each of the remaining tools 20 times to account for the randomness in training process and report the most frequently observed result.
+
+To calculate the similarity between the ground truth provided for each fault in our benchmark and the fault localisation results, we adopt the Asymmetric Jaccard metric that was used in the empirical study of repair tools~(see Section~\ref{sec:eval_metric_rep}). In this case, the metric measures the percentage of the fault types in the list of localised faults  ($OP_{loc}$) that are also found in the ground truth ($OP_{gt}$):
+\begin{equation}
+    AJ = \frac{| OP_{loc} \cap OP_{gt} |}{| OP_{gt} |}
+\end{equation}
+

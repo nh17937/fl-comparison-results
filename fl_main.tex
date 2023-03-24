@@ -40,6 +40,7 @@
 \usepackage{tcolorbox}
 \usepackage{balance}
 \usepackage{footmisc}
+\usepackage{tcolorbox}
 
 \lstset{columns=fullflexible}
 
@@ -49,10 +50,12 @@
 
 \usepackage{xspace}
 
+\definecolor{box-white}{cmyk}{0, 0, 0, 0, 0}
+
 %\newcommand{\tool}{\textsc{DeepRepair}\xspace} 
-\newcommand{\dc}{\textsc{DeepCrime}\xspace} 
-\newcommand{\AutoT}{\textsc{AutoTrainer}\@\xspace}
-\newcommand{\dfd}{\textsc{DeepFD}\xspace}
+%\newcommand{\dc}{\textsc{DeepCrime}\xspace} 
+%\newcommand{\AutoT}{\textsc{AutoTrainer}\@\xspace}
+%\newcommand{\dfd}{\textsc{DeepFD}\xspace}
 \newcommand{\fixme}[1]{\textcolor{red}{\textbf{FIXME:}#1}}
 
 \newboolean{showcomments}
@@ -76,6 +79,23 @@
 \newcommand\paolo[1]{\nb{Paolo}{#1}} 
 \newcommand\gunel[1]{\nb{Gunel}{#1}}
 \newcommand\nargiz[1]{\nb{Nargiz}{#1}}
+
+\newcommand{\DC}{\textsc{DeepCrime}\@\xspace}
+\newcommand\DM{\textsc{DeepMetis}\xspace}
+\newcommand{\DMPP}{\textsc{DeepMutation++}\@\xspace}
+\newcommand{\AutoT}{\textsc{AutoTrainer}\@\xspace}
+\newcommand{\dfd}{\textsc{DeepFD}\xspace}
+\newcommand{\DL}{\textsc{DeepLocalize}\xspace}
+\newcommand{\DD}{\textsc{DeepDiagnosis}\xspace}
+\newcommand{\UM}{\textsc{UMLAUT}\xspace}
+\newcommand{\NL}{\textsc{Neuralint}\xspace}
+\newcommand{\DLF}{\textsc{DLFuzz}\xspace}
+\newcommand{\DJS}{\textsc{DeepJanus}\xspace}
+\newcommand{\HB}{\textsc{HEBO}\xspace}
+\newcommand{\BHB}{\textsc{BOHB}\xspace}
+
+\newcommand{\etal}{\textit{et al.}\xspace}
+
 
 \newcommand{\COMMENT}[1]{}
 
@@ -143,10 +163,10 @@ deep learning, real faults, fault localisation
 
 \input{introduction}
 \input{background}
-\input{benchmark}
+%\input{benchmark}
 \input{empirical_study}
 \input{results}
-\input{discussion}
+%\input{discussion}
 \input{threats}
 \input{related_work}
 \input{conclusion}
@@ -156,7 +176,8 @@ deep learning, real faults, fault localisation
 %\bibliography{biblio,newref}
 \bibliographystyle{IEEEtran}
 \balance
-\bibliography{IEEEabrv,biblio,newref}
+%\bibliography{IEEEabrv,biblio,newref}
+\bibliography{IEEEabrv,biblio2}
 
 \vspace{12pt}
 \end{document}
