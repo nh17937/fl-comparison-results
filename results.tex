@@ -6,13 +6,50 @@
 \subsection{Results}
 \subsubsection{RQ1 (Effectiveness)}
 
-
-Tables~\ref{tab:main_results_fl_1_4_1}, \ref{tab:main_results_fl_1_4_2}, \ref{tab:main_results_fl_1_4_3}, and \ref{tab:main_results_fl_1_4_4} present the output of the application of fault localisation tools to our benchmark. The column \textit{'GT'} stands for \textit{'Ground Truth'} and provides the list of fault types affecting the model. For artificial faulty models that were obtained by applying \DC to subject models, we denote their fault types by the corresponding mutation operators (see Table~\ref{tab:AFmodels}). Columns named \textit{'tool\_name-output'} show the fault list produced by each FL tool. As the fault types that affect real faulty models from our benchmark are also covered by \DC, their ground truth is also presented as the corresponding mutation operators.
+\nargiz{change the text below according to the final selection of tables}
+Table~\ref{tab:main_results_1}, \ref{tab:main_results_fl_1_4_2}, \ref{tab:main_results_fl_1_4_3}, and \ref{tab:main_results_fl_1_4_4} present the output of the application of fault localisation tools to our benchmark. The column \textit{'GT'} stands for \textit{'Ground Truth'} and provides the list of fault types affecting the model. For artificial faulty models that were obtained by applying \DC to subject models, we denote their fault types by the corresponding mutation operators (see Table~\ref{tab:AFmodels}). Columns named \textit{'tool\_name-output'} show the fault list produced by each FL tool. As the fault types that affect real faulty models from our benchmark are also covered by \DC, their ground truth is also presented as the corresponding mutation operators.
 
 Please note that to simplify, we name 'ARM' faults as 'ACH' as both operators change the activation function of a layer. In addition to the mutation operators mentioned in Table~\ref{tab:AFmodels}, 'HBS' is an operator that changes batch size to produce faulty models with wrong batch size, 'LRM' and 'LAD' simulate cases where there is a negative effect on the performance when a model is missing a layer or has a redundant one, respectively. Another operator, 'LCN', changes the number of neurons in a layer to an improper one, while 'LCF' corrupts the filter size of a convolutional layer. 'BCI' and 'CPP', however, are not part of \DC's operators; they stand for 'Change bias initialisation' and 'Change Training Data Preprocessing', respectively. For some faults that affect not the whole model but only selected layers, in round brackets we specify the indexes of the faulty layers, for ground truth and for fault localisation results if this information is provided. Moreover, '-' means that an FL tool was not able to either find any fault in a program or to associate a detected symptom with a fault. 'N/A' means that the tool was not applicable to the fault type in question or crashed on it. For example, \NL only accepts optimisers that are defined as strings (e.g. 'sgd'), which in turn implies that the default learning rate as defined by the framework is used. This makes it not possible to provide an optimiser with modified learning rate. Symbol '|' separates distinct faults, while separation by '/' means that the faults are alternative to each other. 
 
 For each fault from the ground truth list, column \textit{'tool\_name-match-GT'} specifies whether or not it was detected by the corresponding tool (0 if not detected and 1 otherwise). For each row (issue) we underline the best result.
 
+\begin{table}[ht]
+  \centering
+  \caption{Ground Truth (GT) and fault localisation outcom} 
+  \label{tab:main_results_fl_5}
+   \scalebox{0.6}{
+  \begin{tabular}{llllll}
+    \toprule
+    ID & GT & DFD-match & DFD-match & DFD-match & DFD-match \\
+    \midrule    
+M1 & WCI(0) & 0 & 0 & 1 & 0  \\
+M2 & ARM(7) & 0 & 1 & 0 & 1  \\
+M3 & HLR & 1 & 0 & 0 & 0  \\
+C1 & ACH(2) & 1 & 0 & 0 & 0  \\
+C2 & HNE & 0 & 0 & 0 & 0  \\
+C3 & WCI(2) & 0 & 0 & 1 & 0  \\
+R1 & RAW(0) & 0 & 0 & 0 & 0  \\
+R2 & ACH(2) & 0 & 1 & 0 & 1  \\
+R3 & HLR & 0 & 0 & 0 & 1  \\
+R4 & LCH & 1 & 0 & 1 & 0  \\
+R5 & OCH & 1 & 0 & 0 & 0  \\
+R6 & WCI(0) & 0 & 0 & 1 & 0  \\
+R7 & ARM(2) & 0 & 1 & 0 & 1  \\
+\midrule
+D1 & ACH(7) & 1 & 0 & 0 & 0  \\
+D2 & OCH | HNE |  HBS & 0 | 0 | 0 & 0 | 0 | 0 & 0 | 0 | 0 & 0  \\
+D3 & OCH | LCH | ACH(0,1) | HNE | HBS & 1 | 0 | 0 | 0 | 0 & 0 | 0 | 0 | 0 | 0 & 0 | 1 | 1 | 0 | 0 & 0 | 0 | 0 | 0 | 0  \\
+D4 & ACH(0,1) | LCH | HLR & 0 | 0 | 0 & 1 | 0 | 0 & 1 | 0 | 0 & 1 | 0 | 1  \\
+D5 & HNE | HBS & 0 | 0 & 0 | 0 & 0 | 0 & 0 | 0  \\
+D6 & HLR | HNE | LCH | ACH(1) & 1 | 1 | 0 | 0 & 0 | 0 | 0 | 0 & 0 | 0 | 0 | 0 & 0 | 0 | 0 | 0  \\
+D7 & HLR & 0 & 0 & 0 & 0  \\
+D8 & OCH | HLR & 1 | 1 & 0 | 0 & 0 | 0 & 0 | 0  \\
+D9 & CPP | ACH(5,6) | HBS & 0 | 0 & 0 | 0 & 0 | 0 | 0 & 0 | 0 | 0  \\
+    \bottomrule
+  \end{tabular}
+  }
+\end{table}
+  
 Interestingly, in the majority of cases \UM (20 out of 22) and \DD (15 out of 22) suggest changing the activation function of the last layer to 'softmax' even if in 73 \% of these cases for \UM and 67\% for \DD, the activation function already equals to 'softmax'. This also happens once to \NL. We exclude such misleading suggestions from the tools' output. Moreover, sometimes \UM mentions that overfitting is possible. Since it is just a possibility and such a message does not point to a specific fault, we also exclude it from the analysis. Full output messages provided by the tools are available in our replication package~\cite{fl_comparison_replication}.
 
 Table~\ref{tab:main_results_fl_2} reflects the overall evaluation of the effectiveness of the FL tools. Column "GT \# faults" shows the number of fault types in the ground truth, while columns 'tool\_name \# matches' show the number of faults from the ground truth a tool was able to detect. Columns 'tool\_name AJ' show the values of the Asymmetric Jaccard metric calculated for each pair of an issue and a tool. We treated the cases when a tool is not applicable to an issue as if the tool has failed to locate any faults affecting the issue. Also, we provide mean values for each tool across artificial and real faults (rows 'Avg.') and across all issues in the benchmark (row 'T.A'), to ease the comparison between the tools. According to these numbers, \dfd, on average, exhibits the best performance and significantly outperforms other tools on real faults. For artificial faults, however, \dfd, \NL, and \UM achieve similar performance. Overall, based on all measured metrics, \dfd has the highest values, while all \DD's measurements are noticeably lower than for other tools. \NL and \UM show similar performance according to AJ metric, but \NL has a higher mean number of matches with ground truth. 
@@ -22,6 +59,49 @@ Table~\ref{tab:main_results_fl_2} reflects the overall evaluation of the effecti
 It is worth mentioning that, unlike other tools, \dfd does not provide layer index suggestions. Thus, it is not possible to understand whether a successfully detected fault of 'ACH' type actually points to the correct layer. This is the case for 2 issues out of 22 and if we exclude these issues from the calculation of mean AJ, the result for \dfd drops from 0.305 to 0.214, which makes it comparable with \NL and \UM. If we assume that \dfd correctly locates this fault with the probability of 50\% (the suggested layer is either correct or not), the mean AJ value will be equal to 0.260. Also, for some of the fault types, other tools but \dfd provide specific suggestions on which activation function (DD, UM) or weights initialisation (NL) to adopt or whether to increase or decrease the learning rate (UM).
 
 
+\begin{table}[ht]
+  %\centering
+  \caption{Number (\#) of Ground Truth (GT) faults, number (\#) of FL matches with GT, and AJ values for each FL tool. Avg. shows the average within artifical or real faults. T.A. shows the total average across faults.} 
+  \label{tab:main_results_fl_2}
+   \scalebox{0.65}{
+  \begin{tabular}{l|c|cc|cc|cc|cc}
+    \toprule
+   ID & GT & \multicolumn{2}{c|}{DFD} & \multicolumn{2}{c|}{DD} & \multicolumn{2}{c|}{NL} & \multicolumn{2}{c}{UM}  \\
+     & \# faults & \# matches & AJ & \# matches & AJ &  \# matches & AJ &  \# matches & AJ \\
+    \midrule    
+M1 & 1 & 0 & 0 & 0 & 0 & \textbf{1} & 1 & 0 & 0  \\
+M2 & 1 & 0 & 0 & \underline{1} & 1 & 0 & 0 & \underline{1} & 1  \\
+M3 & 1 & \underline{1} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+C1 & 1 & \underline{1} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+C2 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+C3 & 1 & 0 & 0 & 0 & 0 & \underline{1} & 1 & 0 & 0  \\
+R1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+R2 & 1 & 0 & 0 & \underline{1} & 1 & 0 & 0 & \underline{1} & 1  \\
+R3 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & \underline{1} & 1  \\
+R4 & 1 & \underline{1} & 1 & 0 & 0 & \underline{1} & 1 & 0 & 0  \\
+R5 & 1 & \underline{1} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+R6 & 1 & 0 & 0 & 0 & 0 & \underline{1} & 1 & 0 & 0  \\
+R7 & 1 & 0 & 0 & \underline{1} & 1 & 0 & 0 & \underline{1} & 1  \\
+    \midrule
+\textbf{Avg.} & \textbf{1} & \textbf{0.308} & \textbf{0.308} & \textbf{0.231} & \textbf{0.231} & \textbf{0.308} & \textbf{0.308} & \textbf{0.308} & \textbf{0.308} \\
+    \midrule
+D1 & 1 & \underline{1} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D2 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D3 & 5 & 1 & 0.2 & 0 & 0 & \underline{2} & 0.4 & 0 & 0  \\
+D4 & 3 & 0 & 0 & 1 & 0.33 & 1 & 0.33 & \underline{2} & 0.67  \\
+D5 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D6 & 4 & \underline{2} & 0.5 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D7 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D8 & 2 & \underline{2} & 1 & 0 & 0 & 0 & 0 & 0 & 0  \\
+D9 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+    \midrule
+\textbf{Avg.} & \textbf{2.667} & \textbf{0.667} & \textbf{0.300} & \textbf{0.111} & \textbf{0.037} & \textbf{0.333} & \textbf{0.081} & \textbf{0.222} & \textbf{0.074} \\ 			
+    \midrule
+\textbf{T.A.} & \textbf{1.681} & \textbf{0.455} & \textbf{0.305} & \textbf{0.182} & \textbf{0.152} & \textbf{0.318} & \textbf{0.215} & \textbf{0.273} & \textbf{0.212} \\
+    \bottomrule
+  \end{tabular}
+  }
+\end{table}
 
 \begin{tcolorbox}[colback = box-white]
   \textbf{RQ1}: Our evaluation shows that all FL tools show relatively low AJ results as, for many issues, the tools are not able to successfully identify faults affecting the model. On average, \dfd shows the best results and \DD the lowest. At the same time, \NL and \UM perform quite similarly. Our findings show that this area of testing can benefit from future contributions aimed at improving the accuracy of the identified faults.
@@ -46,12 +126,55 @@ In this RQ, we investigated how demanding the evaluated approaches are in terms 
 
 Table~\ref{tab:main_results_fl_3} shows execution time measured in seconds on 1 run of \dfd and \NL, and an average of 20 runs for the remaining tools. Row 'T.A.' shows the average time spent by each tool on fault localisation over the whole benchmark. To allow fair comparison, row 'Avg.' shows the average execution time over the faults where all tools are applicable. Not surprisingly, \dfd takes considerably longer to run than the other tools since it trains 20 instances for each issue, while the other tools perform 1 (\DD, \UM) or no retraining (\NL). In addition, \DD often terminates the training when a faulty behaviour is observed, which makes its average execution time the shortest on the issues we used. As \NL does not require to train a model to perform fault localisation, its average execution time is also quite low. It can be noted that for some faults that are very fast to train (e.g. C2, D1, D3, 6), a full training performed by \UM takes less time than the static checks of \NL. On average, \DD is the fastest to run, followed by \NL and \UM, and finally, \dfd. Despite the differences, the execution time of all the tools considered is compatible with real-world use.
 
-%\gunel{you could maybe perform statistical test to see if the difference in effectiveness and efficiency of the tools is statistically significant. not sure we have enough datapoints though.}
+
+\begin{table}[ht]
+  \centering
+  \caption{Execution time measurements (in seconds)} 
+  \label{tab:main_results_fl_3}
+   \scalebox{0.8}{
+  \begin{tabular}{l|c|c|c|c}
+    \toprule
+    ID & DFD & DD & NL & UM \\
+    \midrule
+    M1 & 605.30 & 6.65 & 7.63 & 37.62  \\
+    M2 & 485.34 & 6.84 & 9.95 & 40.17  \\
+    C1 & 316.10 & 7.34 & 10.02 & 163.08  \\
+    C2 & 338.45 & 7.15 & 9.77 & 4.77  \\
+    C3 & 321.42 & 7.03 & 10.02 & 135.75  \\
+    R1 & 124.50 & 4.75 & 9.44 & 6.25  \\
+    R2 & 115.12 & 4.05 & 9.59 & 5.89  \\
+    R4 & 125.76 & 3.90 & 9.59 & 6.16  \\
+    R5 & 126.13 & 3.58 & 7.7 & 5.10  \\
+    R6 & 133.23 & 4.07 & 9.19 & 6.02  \\
+    R7 & 158.34 & 3.95 & 8.99 & 6.07  \\
+    %\midrule
+    D1 & 54.50 & 3.30 & 9.85 & 2.07  \\
+    D2 & 451.67 & 20.13 & 9.95 & 18.98  \\
+    D3 & 32.80 & 1.58 & 9.50 & 1.33  \\
+    D4 & 797.46 & 11.66 & 6.87 & 324.57  \\
+    D5 & 562.46 & 11.54 & 7.50 & 27.43  \\
+    D6 & 19.6 & 1.32 & 6.88 & 0.39  \\
+    D8 & 109.40 & 2.36 & 10.16 & 4.38  \\
+    \midrule
+    \textbf{Avg.} & \textbf{270.98} & \textbf{6.18} & \textbf{9.03} & \textbf{44.22}  \\
+    \midrule
+    M3 & 798.23 & 6.86 & N/A & 38.66  \\
+    R3 & 116.34 & 4.05 & N/A & 6.00  \\
+    D7 & 53.53 & 166.12 & N/A & 1.89  \\
+    D9 & N/A & N/A & 9.35 & 57.07  \\
+    \midrule
+\textbf{T.A.} & \textbf{278.37} & \textbf{13.73} & \textbf{9.05} & \textbf{40.89} \\
+    \bottomrule
+  \end{tabular}
+  }
+\end{table}
+
+
 \begin{tcolorbox}[colback = box-white]
   \textbf{RQ3}: The tools considered in our empirical study operate on the basis of different strategies and require different numbers of retrainings of the same model to attempt fault localisation. Consequently, \DD, which often interrupts the execution when it detects a fault symptom, is the fastest, while \dfd is the slowest as it is designed to take into account the stochasticity in the training process by generating 20 instances of the model under test. \NL 
  performs fault localisation without training a model, making it sometimes faster than \UM. Neither tool requires resources that are prohibitively expensive for practical use.
 \end{tcolorbox}
 
 \include{Tab/tab_fl_11}
-\include{Tab/tab_fl_12}
-\include{Tab/tab_fl_3}
+%\include{Tab/tab_fl_12}
+%\include{Tab/tab_fl_3}
